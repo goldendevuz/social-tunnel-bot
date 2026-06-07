@@ -21,6 +21,7 @@ class ManagedBotInfo:
     first_name: str
     owner_id: int          # Telegram ID пользователя, создавшего бота
     created_at: str = ""   # ISO-формат datetime
+    token: str = ""
 
     def __post_init__(self) -> None:
         if not self.created_at:
@@ -71,3 +72,6 @@ class Storage:
             self._save()
             return True
         return False
+    
+    def all_bots(self) -> list[ManagedBotInfo]:
+        return list(self._bots.values())
