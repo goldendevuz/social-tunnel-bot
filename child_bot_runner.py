@@ -83,6 +83,8 @@ def _load_saverapi_modules():
     # Agar yo'q bo'lsa vaqtinchalik o'rnatamiz
     if not os.getenv("BOT_TOKEN"):
         os.environ["BOT_TOKEN"] = "placeholder"
+        
+    original_config = sys.modules.get("config")
 
     # 1. saverapi config — "saver_config" nomi bilan
     # 1. saverapi config
