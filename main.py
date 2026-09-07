@@ -31,7 +31,8 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from config import BOT_TOKEN
+from child_bot_runner import launch_child_bot
+from config import BOT_TOKEN, TELEGRAM_API_BASE
 from handlers import main_router
 from storage import Storage
 
@@ -70,6 +71,15 @@ async def main() -> None:
     )
 
     try:
+        # Server ishga tushganda avvalgi botlarni qayta yuklaymiz
+        for bot_info in storage.all_bots():
+            if bot_info.token:
+                await launch_child_bot(
+                    child_bot_id=bot_info.bot_id,
+                    child_token=bot_info.token,
+                    username=bot_info.username,
+                    telegram_api_base=TELEGRAM_API_BASE,
+                )
         await dp.start_polling(
             bot,
             # ВАЖНО: явно указываем "managed_bot" в allowed_updates!
